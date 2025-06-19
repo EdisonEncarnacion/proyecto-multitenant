@@ -1,0 +1,10 @@
+# Ignorar Node.js
+/backend/node_modules
+/backend/.env
+
+# Ignorar React
+/frontend/node_modules
+/frontend/.env
+
+# Ignorar otros archivos del sistema
+.DS_Store
