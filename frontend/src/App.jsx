@@ -11,7 +11,7 @@ function App() {
   const [editForm, setEditForm] = useState({ name: '', price: '', stock: '' });
 
   useEffect(() => {
-    const t = localStorage.getItem('tenant');
+    const t = localStorage.getItem('tenant');ss
     if (t) setTenant(t);
   }, []);
 
