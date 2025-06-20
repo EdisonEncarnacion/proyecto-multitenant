@@ -10,10 +10,12 @@ function App() {
   const [editId, setEditId] = useState(null);
   const [editForm, setEditForm] = useState({ name: '', price: '', stock: '' });
 
-  useEffect(() => {
-    const t = localStorage.getItem('tenant');ss
-    if (t) setTenant(t);
-  }, []);
+useEffect(() => {
+  const t = localStorage.getItem('tenant');
+  const storedUser = localStorage.getItem('user');
+  if (t) setTenant(t);
+  if (storedUser) setUser(JSON.parse(storedUser));
+}, []);
 
   useEffect(() => {
     if (user && tenant) {
@@ -67,6 +69,14 @@ function App() {
     .catch(console.error);
 };
 
+const handleLogout = () => {
+  localStorage.removeItem('user');
+  localStorage.removeItem('tenant');
+  localStorage.removeItem('token');
+  setUser(null);
+  setTenant('');
+  setProducts([]);
+};
 
 
   const handleDelete = id => {
@@ -77,11 +87,30 @@ function App() {
       .catch(console.error);
   };
 
-  if (!user) return <Login onLogin={setUser} />;
+  
+if (!user) {
+  return (
+    <Login
+      onLogin={(loggedUser) => {
+        setUser(loggedUser);
+        const tenantFromStorage = localStorage.getItem('tenant');
+        setTenant(tenantFromStorage); // ✅ actualizamos tenant aquí también
+        localStorage.setItem('user', JSON.stringify(loggedUser)); // guardamos el usuario
+      }}
+    />
+  );
+}
+
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
-      <h1>Productos de {tenant}</h1>
+      
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Productos de {tenant}</h1>
+        <button onClick={handleLogout} style={{ padding: '5px 10px', backgroundColor: '#f44336', color: '#fff', border: 'none', borderRadius: '5px' }}>
+          Cerrar sesión
+        </button>
+      </div>
 
       {/* FORMULARIO DE EDICIÓN */}
       {editId && (

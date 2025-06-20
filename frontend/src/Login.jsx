@@ -21,7 +21,7 @@ function Login({ onLogin }) {
       localStorage.setItem('tenant', form.tenant);
       onLogin(res.data.user); // o redirige
     })
-    .catch(err => alert('Login incorrecto'));ss
+    .catch(err => alert('Login incorrecto'));
   };
 
   return (
@@ -30,6 +30,7 @@ function Login({ onLogin }) {
       <input type="email" name="email" placeholder="Correo" onChange={handleChange} required />
       <input type="password" name="password" placeholder="Contraseña" onChange={handleChange} required />
       <button type="submit">Iniciar sesión</button>
+      
     </form>
   );
 }
