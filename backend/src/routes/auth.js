@@ -5,27 +5,7 @@ const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 
 // Crea la BD y tabla de un tenant
-async function crearBaseDeDatos(tenant) {
-  const dbName = `${tenant}_db`;
-  const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: ''
-  });
-
-  await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
-  await connection.query(`USE \`${dbName}\``);
-  await connection.query(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(100) NOT NULL,
-      email VARCHAR(100) NOT NULL UNIQUE,
-      password_hash VARCHAR(100) NOT NULL,
-      role VARCHAR(50) NOT NULL
-    )
-  `);
-  await connection.end();
-}
+const { crearBaseDeDatos } = require('./utils/dbTools');
 
 // REGISTRO
 router.post('/register', async (req, res) => {
